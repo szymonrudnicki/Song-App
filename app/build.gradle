@@ -1,0 +1,50 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
+
+    defaultConfig {
+        applicationId "com.github.szymonrudnicki.songapp"
+
+        minSdkVersion globalConfiguration["androidMinSdkVersion"]
+        targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
+
+        versionCode globalConfiguration["projectVersionCode"]
+        versionName globalConfiguration["projectVersionName"]
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    def libs = rootProject.ext.libs
+    def androidLibs = rootProject.ext.androidLibs
+    def testLibs = rootProject.ext.testLibs
+
+    implementation project(':data')
+    implementation project(':domain')
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation libs.kotlin
+
+    implementation androidLibs.appcompat
+    implementation androidLibs.ktx
+    implementation androidLibs.constraintLayout
+
+    testImplementation testLibs.junit
+
+    androidTestImplementation testLibs.runner
+    androidTestImplementation testLibs.espressoCore
+}

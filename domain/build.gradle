@@ -1,0 +1,35 @@
+apply plugin: 'java-library'
+apply plugin: 'kotlin'
+
+def globalConfiguration = rootProject.extensions.getByName("ext")
+
+dependencies {
+    def libs = rootProject.ext.libs
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation libs.kotlin
+}
+
+sourceCompatibility = globalConfiguration["javaVersion"]
+targetCompatibility = globalConfiguration["javaVersion"]
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+    }
+}
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = globalConfiguration["javaVersion"]
+    }
+}
+
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = globalConfiguration["javaVersion"]
+    }
+}

@@ -38,10 +38,13 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation libs.kotlin
+    implementation libs.kodein
 
     implementation androidLibs.appcompat
     implementation androidLibs.ktx
     implementation androidLibs.constraintLayout
+    implementation androidLibs.kodeinAndroid
+    implementation androidLibs.retrofit
 
     testImplementation testLibs.junit
 

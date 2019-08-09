@@ -30,4 +30,12 @@ android {
 
 dependencies {
     implementation project(':domain')
+
+    def libs = rootProject.ext.libs
+
+    implementation libs.kotlin
+    implementation libs.gson
+    implementation libs.rxJava
+    implementation androidLibs.rxAndroid
+    implementation androidLibs.retrofit
 }

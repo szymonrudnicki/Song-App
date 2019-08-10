@@ -9,6 +9,8 @@ import org.kodein.di.generic.instance
 import org.kodein.di.generic.singleton
 
 val songsModule = Kodein.Module(name = "songs") {
+
     bind<SongsRemoteSource>() with singleton { SongsRemoteSource(instance()) }
     bind<SongsRepository>() with singleton { SongsRepositoryImpl(instance(), instance()) }
+
 }

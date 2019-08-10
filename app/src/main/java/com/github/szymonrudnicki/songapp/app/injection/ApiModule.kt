@@ -1,6 +1,6 @@
 package com.github.szymonrudnicki.songapp.app.injection
 
-import com.github.szymonrudnicki.songapp.app.Constants
+import com.github.szymonrudnicki.songapp.app.common.Constants
 import com.github.szymonrudnicki.songapp.data.rest.ITunesApiService
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind

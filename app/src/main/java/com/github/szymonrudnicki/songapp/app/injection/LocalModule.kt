@@ -1,5 +1,7 @@
 package com.github.szymonrudnicki.songapp.app.injection
 
+import com.github.szymonrudnicki.songapp.app.common.JsonStringProviderImpl
+import com.github.szymonrudnicki.songapp.data.json.JsonStringProvider
 import com.github.szymonrudnicki.songapp.data.json.SongsLocalSource
 import com.github.szymonrudnicki.songapp.data.repositories.SongsRepositoryImpl
 import com.github.szymonrudnicki.songapp.data.rest.SongsRemoteSource
@@ -9,8 +11,6 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.singleton
 
-val songsModule = Kodein.Module(name = "songs") {
-    bind<SongsRemoteSource>() with singleton { SongsRemoteSource(instance()) }
-    bind<SongsLocalSource>() with singleton { SongsLocalSource(instance(), instance()) }
-    bind<SongsRepository>() with singleton { SongsRepositoryImpl(instance(), instance()) }
+val localModule = Kodein.Module(name = "local") {
+    bind<JsonStringProvider>() with singleton { JsonStringProviderImpl(instance()) }
 }

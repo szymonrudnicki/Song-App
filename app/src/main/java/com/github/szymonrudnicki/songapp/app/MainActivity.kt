@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity(), KodeinAware {
 
     private fun updateUIState(event: MainUIEvent?) {
         when (event) {
-            is MainUIEvent.Hi -> Toast.makeText(this, "Hi!", Toast.LENGTH_LONG).show()
+            is MainUIEvent.SongsChanged -> Toast.makeText(this, event.songs.toString(), Toast.LENGTH_LONG).show()
         }
     }
 
@@ -45,8 +45,8 @@ class MainActivity : AppCompatActivity(), KodeinAware {
 
     override fun onOptionsItemSelected(item: MenuItem) =
             if (item.itemId == R.id.action_select_source) {
+                mainViewModel.getSongsFromLocal()
                 // TODO: show selection dialog
-                mainViewModel.sayHi()
                 true
             } else super.onOptionsItemSelected(item)
 

@@ -1,22 +1,41 @@
 package com.github.szymonrudnicki.songapp.app
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import kotlinx.android.synthetic.main.activity_main.*
-import androidx.core.content.ContextCompat
 import android.view.WindowManager
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 import com.github.szymonrudnicki.songapp.R
+import com.github.szymonrudnicki.songapp.app.common.extensions.observe
+import com.github.szymonrudnicki.songapp.app.common.extensions.viewModel
+import kotlinx.android.synthetic.main.activity_main.*
+import org.kodein.di.Kodein
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.closestKodein
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), KodeinAware {
+
+    override val kodein: Kodein by closestKodein()
+
+    private val mainViewModel: MainViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         setStatusBarColor()
+
+        observe(mainViewModel.mainLiveData, ::updateUIState)
+    }
+
+    private fun updateUIState(event: MainUIEvent?) {
+        when (event) {
+            is MainUIEvent.Hi -> Toast.makeText(this, "Hi!", Toast.LENGTH_LONG).show()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -27,9 +46,9 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem) =
             if (item.itemId == R.id.action_select_source) {
                 // TODO: show selection dialog
+                mainViewModel.sayHi()
                 true
-            }
-            else super.onOptionsItemSelected(item)
+            } else super.onOptionsItemSelected(item)
 
     private fun setStatusBarColor() = with(window) {
         clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)

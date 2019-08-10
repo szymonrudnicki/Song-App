@@ -45,6 +45,8 @@ dependencies {
     implementation androidLibs.constraintLayout
     implementation androidLibs.kodeinAndroid
     implementation androidLibs.retrofit
+    implementation androidLibs.viewmodel
+    implementation androidLibs.lifecycleExtensions
 
     testImplementation testLibs.junit
 

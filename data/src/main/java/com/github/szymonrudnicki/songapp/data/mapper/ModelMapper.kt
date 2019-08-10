@@ -6,7 +6,7 @@ import com.github.szymonrudnicki.songapp.domain.songs.model.SongDomainModel
 
 object ModelMapper {
     fun mapSongsFromResponseToDomain(songs: List<SongResponseModel>) = songs.map {
-        SongDomainModel("todo", "todo", 1337)
+        SongDomainModel("todo", "todo", "1337")
     }
 
     fun mapSongsFromJSONToDomain(songs: List<SongJSONModel>) = songs.map {

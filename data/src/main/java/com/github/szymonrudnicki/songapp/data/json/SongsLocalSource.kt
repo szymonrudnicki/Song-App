@@ -1,19 +1,17 @@
 package com.github.szymonrudnicki.songapp.data.json
 
-import com.github.szymonrudnicki.songapp.data.common.Constants.JSON_PATH
 import com.github.szymonrudnicki.songapp.data.extensions.fromJson
 import com.google.gson.Gson
-import com.google.gson.stream.JsonReader
 import io.reactivex.Single
-import java.io.FileReader
 
 class SongsLocalSource(
-        private val gson: Gson
+        private val gson: Gson,
+        private val jsonStringProvider: JsonStringProvider
 ) {
 
     fun getSongs(): Single<List<SongJSONModel>> {
-        val jsonReader = JsonReader(FileReader(JSON_PATH))
-        val songsList: List<SongJSONModel> = gson.fromJson(jsonReader)
+        val jsonString = jsonStringProvider.get()
+        val songsList: List<SongJSONModel> = gson.fromJson(jsonString)
         return Single.just(songsList)
     }
 

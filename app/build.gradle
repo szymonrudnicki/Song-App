@@ -56,6 +56,9 @@ dependencies {
     implementation androidLibs.stetho
     implementation androidLibs.stethoOkHttp
     implementation androidLibs.jodaTimeAndroid
+    implementation androidLibs.recyclerView
+    implementation androidLibs.navigationFragment
+    implementation androidLibs.navigationUi
 
     testImplementation testLibs.junit
 

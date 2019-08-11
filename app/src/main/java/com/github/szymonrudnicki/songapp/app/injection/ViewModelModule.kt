@@ -1,7 +1,7 @@
 package com.github.szymonrudnicki.songapp.app.injection
 
 import androidx.lifecycle.ViewModelProvider
-import com.github.szymonrudnicki.songapp.app.MainViewModel
+import com.github.szymonrudnicki.songapp.app.ui.songslist.SongsListViewModel
 import com.github.szymonrudnicki.songapp.app.common.extensions.bindViewModel
 import com.github.szymonrudnicki.songapp.app.injection.viewmodel.ViewModelFactory
 import org.kodein.di.Kodein
@@ -13,5 +13,5 @@ import org.kodein.di.generic.singleton
 
 val viewModelModule = Kodein.Module(name = "viewModel") {
     bind<ViewModelProvider.Factory>() with singleton { ViewModelFactory(kodein.direct) }
-    bindViewModel<MainViewModel>() with provider { MainViewModel(instance(), instance(), instance()) }
+    bindViewModel<SongsListViewModel>() with provider { SongsListViewModel(instance(), instance(), instance()) }
 }

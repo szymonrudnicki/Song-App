@@ -7,6 +7,7 @@ import com.github.szymonrudnicki.songapp.domain.songs.usecases.GetSongsFromLocal
 import com.github.szymonrudnicki.songapp.domain.songs.usecases.GetSongsFromRemoteUseCase
 import com.github.szymonrudnicki.songapp.domain.songs.usecases.GetSongsResult
 import io.reactivex.disposables.CompositeDisposable
+import java.lang.Exception
 
 class MainViewModel(
         private val getSongsFromLocalUseCase: GetSongsFromLocalUseCase,
@@ -21,36 +22,37 @@ class MainViewModel(
     fun getSongsFromLocal() {
         compositeDisposable.add(
                 getSongsFromLocalUseCase.execute()
-                        .subscribe { result ->
-                            when (result) {
-                                is GetSongsResult.Success ->
-                                    mainLiveData.postValue(MainUIEvent.SongsChanged(result.songs))
-                            }
-                        }
+                    .subscribe(::handleGetSongsResult, ::handleGetSongsError)
         )
     }
 
     fun getSongsFromRemote() {
         compositeDisposable.add(
                 getSongsFromRemoteUseCase.execute()
-                        .subscribe { result ->
-                            when (result) {
-                                is GetSongsResult.Success ->
-                                    mainLiveData.postValue(MainUIEvent.SongsChanged(result.songs))
-                            }
-                        }
+                        .subscribe(::handleGetSongsResult, ::handleGetSongsError)
         )
     }
 
     fun getSongsFromLocalAndRemote() {
         compositeDisposable.add(
                 getSongsFromLocalAndRemoteUseCase.execute()
-                        .subscribe { result ->
-                            when (result) {
-                                is GetSongsResult.Success ->
-                                    mainLiveData.postValue(MainUIEvent.SongsChanged(result.songs))
-                            }
-                        }
+                        .subscribe(::handleGetSongsResult, ::handleGetSongsError)
         )
+    }
+
+    private fun handleGetSongsResult(result: GetSongsResult) = when (result) {
+        is GetSongsResult.Success ->
+            mainLiveData.postValue(MainUIEvent.SongsChanged(result.songs))
+        is GetSongsResult.Failed ->
+            mainLiveData.postValue(MainUIEvent.Failed(Exception()))
+    }
+
+    private fun handleGetSongsError(throwable: Throwable) {
+        mainLiveData.postValue(MainUIEvent.Failed(throwable))
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.clear()
     }
 }

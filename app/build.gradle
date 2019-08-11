@@ -47,8 +47,14 @@ dependencies {
     implementation androidLibs.constraintLayout
     implementation androidLibs.kodeinAndroid
     implementation androidLibs.retrofit
+    implementation androidLibs.retrofitRxAdapter
+    implementation androidLibs.retrofitGsonConverter
     implementation androidLibs.viewmodel
     implementation androidLibs.lifecycleExtensions
+    implementation androidLibs.rxAndroid
+    implementation androidLibs.stetho
+    implementation androidLibs.stethoOkHttp
+    implementation androidLibs.jodaTimeAndroid
 
     testImplementation testLibs.junit
 

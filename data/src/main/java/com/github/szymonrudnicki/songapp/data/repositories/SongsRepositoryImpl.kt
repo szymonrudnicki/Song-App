@@ -16,6 +16,11 @@ class SongsRepositoryImpl(
             localSource.getSongs()
                     .map(ModelMapper::mapSongsFromJSONToDomain)
                     .map {
+                        it.filter { song ->
+                            song.title.isNotEmpty() and song.artist.isNotEmpty() and song.releaseYear.isNotEmpty()
+                        }
+                    }
+                    .map {
                         GetSongsResult.Success(it)
                     }
 
@@ -23,10 +28,15 @@ class SongsRepositoryImpl(
             remoteSource.searchForSongs("trains")
                     .map(ModelMapper::mapSongsFromResponseToDomain)
                     .map {
+                        it.filter { song ->
+                            song.title.isNotEmpty() and song.artist.isNotEmpty() and song.releaseYear.isNotEmpty()
+                        }
+                    }
+                    .map {
                         GetSongsResult.Success(it)
                     }
 
     override fun getSongsFromLocalAndRemote(): Single<GetSongsResult> =
             Single.just(GetSongsResult.Failed)
-            //getSongsFromRemote().concatWith(getSongsFromLocal())
+    //getSongsFromRemote().concatWith(getSongsFromLocal())
 }

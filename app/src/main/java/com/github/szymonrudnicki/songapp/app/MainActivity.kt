@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity(), KodeinAware {
     private fun updateUIState(event: MainUIEvent?) {
         when (event) {
             is MainUIEvent.SongsChanged -> Toast.makeText(this, event.songs.toString(), Toast.LENGTH_LONG).show()
+            is MainUIEvent.Failed -> Toast.makeText(this, "FAIL! ${event.throwable}", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -45,7 +46,7 @@ class MainActivity : AppCompatActivity(), KodeinAware {
 
     override fun onOptionsItemSelected(item: MenuItem) =
             if (item.itemId == R.id.action_select_source) {
-                mainViewModel.getSongsFromLocal()
+                mainViewModel.getSongsFromRemote()
                 // TODO: show selection dialog
                 true
             } else super.onOptionsItemSelected(item)

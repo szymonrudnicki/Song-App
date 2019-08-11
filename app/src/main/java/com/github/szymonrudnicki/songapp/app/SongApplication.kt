@@ -2,7 +2,9 @@ package com.github.szymonrudnicki.songapp.app
 
 import android.app.Application
 import android.content.Context
+import com.facebook.stetho.Stetho
 import com.github.szymonrudnicki.songapp.app.injection.*
+import net.danlew.android.joda.JodaTimeAndroid
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.generic.bind
@@ -16,5 +18,11 @@ class SongApplication : Application(), KodeinAware {
         import(viewModelModule)
         import(useCasesModule)
         import(localModule)
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        Stetho.initializeWithDefaults(this)
+        JodaTimeAndroid.init(this)
     }
 }

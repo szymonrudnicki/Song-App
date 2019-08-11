@@ -1,12 +1,13 @@
 package com.github.szymonrudnicki.songapp.data.rest
 
+import com.github.szymonrudnicki.songapp.data.rest.response.SongsResponseModel
 import io.reactivex.Single
 import retrofit2.http.GET
-import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ITunesApiService {
 
     @GET("/search")
-    fun searchFor(@Path("term") searchTerm: String) : Single<List<SongResponseModel>>
+    fun searchFor(@Query("term") searchTerm: String): Single<SongsResponseModel>
 
 }

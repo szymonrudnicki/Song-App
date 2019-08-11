@@ -1,6 +1,7 @@
-package com.github.szymonrudnicki.songapp.data.rest
+package com.github.szymonrudnicki.songapp.data.rest.response
 
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 data class SongResponseModel(
         @SerializedName("wrapperType")
@@ -18,7 +19,7 @@ data class SongResponseModel(
         @SerializedName("collectionName")
         val collectionName: String,
         @SerializedName("trackName")
-        val trackName: String,
+        val trackName: String?,
         @SerializedName("collectionCensoredName")
         val collectionCensoredName: String,
         @SerializedName("trackCensoredName")

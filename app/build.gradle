@@ -41,6 +41,7 @@ dependencies {
     implementation libs.kodein
     implementation libs.gson
     implementation libs.rxJava
+    implementation libs.rxLint
 
     implementation androidLibs.appcompat
     implementation androidLibs.ktx

@@ -9,6 +9,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation libs.kotlin
     implementation libs.rxJava
+    implementation libs.rxLint
 }
 
 sourceCompatibility = globalConfiguration["javaVersion"]

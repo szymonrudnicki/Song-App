@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Song App</string>
     <string name="select_source">Select source</string>
+    <string name="empty_list_placeholder_text">This list is empty</string>
 </resources>

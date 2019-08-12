@@ -5,33 +5,37 @@ import com.github.szymonrudnicki.songapp.data.mapper.ModelMapper
 import com.github.szymonrudnicki.songapp.data.rest.SongsRemoteSource
 import com.github.szymonrudnicki.songapp.domain.songs.model.SongDomainModel
 import com.github.szymonrudnicki.songapp.domain.songs.repositories.SongsRepository
-import com.github.szymonrudnicki.songapp.domain.songs.usecases.GetSongsResult
 import io.reactivex.Single
+import io.reactivex.functions.BiFunction
 
 class SongsRepositoryImpl(
-        private val remoteSource: SongsRemoteSource,
-        private val localSource: SongsLocalSource
+        remoteSource: SongsRemoteSource,
+        localSource: SongsLocalSource
 ) : SongsRepository {
 
-    override fun getSongsFromLocal(): Single<GetSongsResult> =
+    private val localSingle =
             localSource.getSongs()
                     .map(ModelMapper::mapSongsFromJSONToDomain)
                     .filterOutModelsWithEmptyValues()
-                    .map {
-                        GetSongsResult.Success(it)
-                    }
 
-    override fun getSongsFromRemote(): Single<GetSongsResult> =
+    private val remoteSingle =
             remoteSource.searchForSongs("trains")
                     .map(ModelMapper::mapSongsFromResponseToDomain)
                     .filterOutModelsWithEmptyValues()
-                    .map {
-                        GetSongsResult.Success(it)
-                    }
 
-    override fun getSongsFromLocalAndRemote(): Single<GetSongsResult> =
-            Single.just(GetSongsResult.Failed)
-    //getSongsFromRemote().concatWith(getSongsFromLocal())
+
+    override fun getSongsFromLocal(): Single<List<SongDomainModel>> = localSingle
+    override fun getSongsFromRemote(): Single<List<SongDomainModel>> = remoteSingle
+
+    override fun getSongsFromLocalAndRemote(): Single<List<SongDomainModel>> =
+            Single.zip(localSingle.onErrorReturn { listOf() }, remoteSingle.onErrorReturn { listOf() },
+                    BiFunction { localResult, remoteResult ->
+                        mutableListOf<SongDomainModel>().apply {
+                            addAll(localResult)
+                            addAll(remoteResult)
+                        }
+                    }
+            )
 
     private fun Single<List<SongDomainModel>>.filterOutModelsWithEmptyValues() =
             this.map {

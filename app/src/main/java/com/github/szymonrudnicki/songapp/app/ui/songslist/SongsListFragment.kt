@@ -15,6 +15,7 @@ import com.github.szymonrudnicki.songapp.app.common.extensions.observe
 import com.github.szymonrudnicki.songapp.app.common.extensions.viewModel
 import com.github.szymonrudnicki.songapp.app.common.extensions.visible
 import com.github.szymonrudnicki.songapp.app.ui.songslist.recycler.SongRecyclerAdapter
+import com.github.szymonrudnicki.songapp.domain.songs.model.SongDomainModel
 import kotlinx.android.synthetic.main.fragment_songs_list.*
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -43,14 +44,19 @@ class SongsListFragment : Fragment(), KodeinAware {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        observe(songsListViewModel.eventLiveData, ::updateUIState)
-        observe(songsListViewModel.loadingLiveData, ::toggleLoadingScreen)
+
+        startObservingLiveData()
         songsListViewModel.getSongsFromLastSource()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_songs_list, menu)
+    private fun startObservingLiveData() = with(songsListViewModel) {
+        observe(songsLiveData, ::updateSongsList)
+        observe(loadingLiveData, ::toggleLoadingScreen)
+        observe(toastLiveData, ::showToastMessage)
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =
+            inflater.inflate(R.menu.menu_songs_list, menu)
 
     override fun onOptionsItemSelected(item: MenuItem) =
             if (item.itemId == R.id.action_select_source) {
@@ -58,19 +64,27 @@ class SongsListFragment : Fragment(), KodeinAware {
                 true
             } else super.onOptionsItemSelected(item)
 
-    private fun updateUIState(event: SongsListUIEvent?) {
-        when (event) {
-            is SongsListUIEvent.SongsChanged -> songsAdapter.songsList = event.songs
-            is SongsListUIEvent.Failed -> Toast.makeText(context, "FAIL! ${event.throwable}", Toast.LENGTH_LONG).show()
+    private fun updateSongsList(songs: List<SongDomainModel>?) {
+        if (songs!!.isNotEmpty()) {
+            empty_list_placeholder_group.gone()
+            songs_recycler_view.visible()
+        } else {
+            songs_recycler_view.gone()
+            empty_list_placeholder_group.visible()
         }
+        songsAdapter.songsList = songs
     }
 
     private fun toggleLoadingScreen(isLoading: Boolean?) {
-        if(isLoading!!) {
+        if (isLoading!!) {
             loading_screen.visible()
         } else {
             loading_screen.gone()
         }
+    }
+
+    private fun showToastMessage(message: String?) {
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
     private fun setupRecyclerView() {

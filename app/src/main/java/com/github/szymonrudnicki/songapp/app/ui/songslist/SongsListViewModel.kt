@@ -3,10 +3,10 @@ package com.github.szymonrudnicki.songapp.app.ui.songslist
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.github.szymonrudnicki.songapp.domain.pref.SharedPreferencesRepository
+import com.github.szymonrudnicki.songapp.domain.songs.model.SongDomainModel
 import com.github.szymonrudnicki.songapp.domain.songs.usecases.GetSongsFromLocalAndRemoteUseCase
 import com.github.szymonrudnicki.songapp.domain.songs.usecases.GetSongsFromLocalUseCase
 import com.github.szymonrudnicki.songapp.domain.songs.usecases.GetSongsFromRemoteUseCase
-import com.github.szymonrudnicki.songapp.domain.songs.usecases.GetSongsResult
 import io.reactivex.disposables.CompositeDisposable
 
 class SongsListViewModel(
@@ -18,8 +18,9 @@ class SongsListViewModel(
 
     private val compositeDisposable = CompositeDisposable()
 
-    val eventLiveData = MutableLiveData<SongsListUIEvent>()
+    val songsLiveData = MutableLiveData<List<SongDomainModel>>()
     val loadingLiveData = MutableLiveData<Boolean>()
+    val toastLiveData = MutableLiveData<String>()
 
     fun getSongsFromLastSource() {
         val lastCheckedSourceTag = sharedPreferencesRepository.getLastCheckedSourceTag()
@@ -45,14 +46,13 @@ class SongsListViewModel(
         }
     }
 
-    fun getLastCheckedSourceTag(): String =
-            sharedPreferencesRepository.getLastCheckedSourceTag()
+    fun getLastCheckedSourceTag(): String = sharedPreferencesRepository.getLastCheckedSourceTag()
 
     private fun getSongsFromLocal() {
         loadingLiveData.postValue(true)
         compositeDisposable.add(
                 getSongsFromLocalUseCase.execute()
-                        .subscribe(::handleGetSongsResult, ::handleGetSongsError)
+                        .subscribe(::handleSongs, ::handleGetSongsError)
         )
     }
 
@@ -60,7 +60,7 @@ class SongsListViewModel(
         loadingLiveData.postValue(true)
         compositeDisposable.add(
                 getSongsFromRemoteUseCase.execute()
-                        .subscribe(::handleGetSongsResult, ::handleGetSongsError)
+                        .subscribe(::handleSongs, ::handleGetSongsError)
         )
     }
 
@@ -68,23 +68,19 @@ class SongsListViewModel(
         loadingLiveData.postValue(true)
         compositeDisposable.add(
                 getSongsFromLocalAndRemoteUseCase.execute()
-                        .subscribe(::handleGetSongsResult, ::handleGetSongsError)
+                        .subscribe(::handleSongs, ::handleGetSongsError)
         )
     }
 
-    private fun handleGetSongsResult(result: GetSongsResult) {
+    private fun handleSongs(songs: List<SongDomainModel>) {
         loadingLiveData.postValue(false)
-        return when (result) {
-            is GetSongsResult.Success ->
-                eventLiveData.postValue(SongsListUIEvent.SongsChanged(result.songs))
-            is GetSongsResult.Failed ->
-                eventLiveData.postValue(SongsListUIEvent.Failed(Exception()))
-        }
+        songsLiveData.postValue(songs)
     }
 
     private fun handleGetSongsError(throwable: Throwable) {
         loadingLiveData.postValue(false)
-        eventLiveData.postValue(SongsListUIEvent.Failed(throwable))
+        songsLiveData.postValue(listOf())
+        toastLiveData.postValue("Something went wrong.")
     }
 
     override fun onCleared() {

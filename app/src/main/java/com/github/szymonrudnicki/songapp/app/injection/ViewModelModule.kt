@@ -13,5 +13,5 @@ import org.kodein.di.generic.singleton
 
 val viewModelModule = Kodein.Module(name = "viewModel") {
     bind<ViewModelProvider.Factory>() with singleton { ViewModelFactory(kodein.direct) }
-    bindViewModel<SongsListViewModel>() with provider { SongsListViewModel(instance(), instance(), instance()) }
+    bindViewModel<SongsListViewModel>() with provider { SongsListViewModel(instance(), instance(), instance(), instance()) }
 }

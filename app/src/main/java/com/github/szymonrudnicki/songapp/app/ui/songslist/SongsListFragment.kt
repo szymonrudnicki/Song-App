@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.fragment_songs_list.*
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
+import java.util.*
 
 class SongsListFragment : Fragment(), KodeinAware {
 
@@ -33,14 +34,15 @@ class SongsListFragment : Fragment(), KodeinAware {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.fragment_songs_list, container, false)
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        observe(songsListViewModel.eventLiveData, ::updateUIState)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        observe(songsListViewModel.eventLiveData, ::updateUIState)
+        songsListViewModel.getSongsFromLastSource()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -72,27 +74,23 @@ class SongsListFragment : Fragment(), KodeinAware {
         }
     }
 
-    private fun handleSourceChoice(chosenSource: String) {
-        //sharedPreferences.saveSource(chosenSource) // trzeba przeniesc do viewmodelu i dorobic SharedPreferencesRepository i Impl
-        when (chosenSource) {
-            getString(R.string.source_local) -> songsListViewModel.getSongsFromLocal()
-            getString(R.string.source_remote) -> songsListViewModel.getSongsFromRemote()
-            getString(R.string.source_local_and_remote) -> songsListViewModel.getSongsFromLocalAndRemote()
-        }
-    }
-
     private fun showSourceSelectionDialog() {
-        val sources = arrayOf(
-                getString(R.string.source_local),
-                getString(R.string.source_remote),
-                getString(R.string.source_local_and_remote)) // poprawic.. enum?
+        val sources = SourceType.values()
+        val sourceTags = ArrayList(sources.map { it.tag }).toTypedArray()
+
+        val sourceIndex = sourceTags.indexOfFirst { tag ->
+            tag == songsListViewModel.getLastCheckedSourceTag()
+        }
 
         var chosenSource = ""
         AlertDialog.Builder(context!!)
-                .setIcon(R.drawable.baseline_input_24)
                 .setTitle(R.string.select_source)
-                .setSingleChoiceItems(sources, 0) { _, index -> chosenSource = sources[index] }
-                .setPositiveButton("Ok") { _, _ -> handleSourceChoice(chosenSource) }
+                .setSingleChoiceItems(sourceTags, sourceIndex) { _, index ->
+                    chosenSource = sourceTags[index]
+                }
+                .setPositiveButton(android.R.string.ok) { _, _ ->
+                    songsListViewModel.handleSourceChoice(SourceType.getByTag(chosenSource))
+                }
                 .show()
     }
 }

@@ -2,14 +2,15 @@ package com.github.szymonrudnicki.songapp.app.ui.songslist
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.github.szymonrudnicki.songapp.domain.pref.SharedPreferencesRepository
 import com.github.szymonrudnicki.songapp.domain.songs.usecases.GetSongsFromLocalAndRemoteUseCase
 import com.github.szymonrudnicki.songapp.domain.songs.usecases.GetSongsFromLocalUseCase
 import com.github.szymonrudnicki.songapp.domain.songs.usecases.GetSongsFromRemoteUseCase
 import com.github.szymonrudnicki.songapp.domain.songs.usecases.GetSongsResult
 import io.reactivex.disposables.CompositeDisposable
-import java.lang.Exception
 
 class SongsListViewModel(
+        private val sharedPreferencesRepository: SharedPreferencesRepository,
         private val getSongsFromLocalUseCase: GetSongsFromLocalUseCase,
         private val getSongsFromRemoteUseCase: GetSongsFromRemoteUseCase,
         private val getSongsFromLocalAndRemoteUseCase: GetSongsFromLocalAndRemoteUseCase
@@ -19,21 +20,48 @@ class SongsListViewModel(
 
     val eventLiveData = MutableLiveData<SongsListUIEvent>()
 
-    fun getSongsFromLocal() {
+    fun getSongsFromLastSource() {
+        val lastCheckedSourceTag = sharedPreferencesRepository.getLastCheckedSourceTag()
+
+        // on first app opening, there won't be any tag saved,
+        // so temporarily Local source is set in this case
+        // need more requirements to finish it
+        val sourceTag = if (lastCheckedSourceTag.isNotEmpty()) {
+            lastCheckedSourceTag
+        } else {
+            SourceType.Local.tag
+        }
+
+        handleSourceChoice(SourceType.getByTag(sourceTag))
+    }
+
+    fun handleSourceChoice(chosenSource: SourceType) {
+        sharedPreferencesRepository.setLastCheckedSourceTag(chosenSource.tag)
+        when (chosenSource) {
+            SourceType.Local -> getSongsFromLocal()
+            SourceType.Remote -> getSongsFromRemote()
+            SourceType.LocalAndRemote -> getSongsFromLocalAndRemote()
+        }
+    }
+
+    fun getLastCheckedSourceTag(): String =
+            sharedPreferencesRepository.getLastCheckedSourceTag()
+
+    private fun getSongsFromLocal() {
         compositeDisposable.add(
                 getSongsFromLocalUseCase.execute()
-                    .subscribe(::handleGetSongsResult, ::handleGetSongsError)
+                        .subscribe(::handleGetSongsResult, ::handleGetSongsError)
         )
     }
 
-    fun getSongsFromRemote() {
+    private fun getSongsFromRemote() {
         compositeDisposable.add(
                 getSongsFromRemoteUseCase.execute()
                         .subscribe(::handleGetSongsResult, ::handleGetSongsError)
         )
     }
 
-    fun getSongsFromLocalAndRemote() {
+    private fun getSongsFromLocalAndRemote() {
         compositeDisposable.add(
                 getSongsFromLocalAndRemoteUseCase.execute()
                         .subscribe(::handleGetSongsResult, ::handleGetSongsError)

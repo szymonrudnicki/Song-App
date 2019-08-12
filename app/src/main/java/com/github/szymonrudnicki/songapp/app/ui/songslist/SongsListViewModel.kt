@@ -2,7 +2,6 @@ package com.github.szymonrudnicki.songapp.app.ui.songslist
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.github.szymonrudnicki.songapp.app.ui.songslist.SongsListUIEvent
 import com.github.szymonrudnicki.songapp.domain.songs.usecases.GetSongsFromLocalAndRemoteUseCase
 import com.github.szymonrudnicki.songapp.domain.songs.usecases.GetSongsFromLocalUseCase
 import com.github.szymonrudnicki.songapp.domain.songs.usecases.GetSongsFromRemoteUseCase
@@ -18,7 +17,7 @@ class SongsListViewModel(
 
     private val compositeDisposable = CompositeDisposable()
 
-    val mainLiveData = MutableLiveData<SongsListUIEvent>()
+    val eventLiveData = MutableLiveData<SongsListUIEvent>()
 
     fun getSongsFromLocal() {
         compositeDisposable.add(
@@ -43,13 +42,13 @@ class SongsListViewModel(
 
     private fun handleGetSongsResult(result: GetSongsResult) = when (result) {
         is GetSongsResult.Success ->
-            mainLiveData.postValue(SongsListUIEvent.SongsChanged(result.songs))
+            eventLiveData.postValue(SongsListUIEvent.SongsChanged(result.songs))
         is GetSongsResult.Failed ->
-            mainLiveData.postValue(SongsListUIEvent.Failed(Exception()))
+            eventLiveData.postValue(SongsListUIEvent.Failed(Exception()))
     }
 
     private fun handleGetSongsError(throwable: Throwable) {
-        mainLiveData.postValue(SongsListUIEvent.Failed(throwable))
+        eventLiveData.postValue(SongsListUIEvent.Failed(throwable))
     }
 
     override fun onCleared() {

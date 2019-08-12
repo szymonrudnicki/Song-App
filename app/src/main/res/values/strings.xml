@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Song App</string>
     <string name="select_source">Select source</string>
+    <string name="source_local">Local</string>
+    <string name="source_remote">Remote</string>
+    <string name="source_local_and_remote">Local and Remote</string>
 </resources>

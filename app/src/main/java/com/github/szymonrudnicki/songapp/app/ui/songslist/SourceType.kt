@@ -8,7 +8,7 @@ enum class SourceType(val tag: String) {
             Local.tag -> Local
             Remote.tag -> Remote
             LocalAndRemote.tag -> LocalAndRemote
-            else -> throw IllegalStateException("No source found for this tag")
+            else -> throw IllegalStateException("No source found for this tag: $tag")
         }
     }
 }

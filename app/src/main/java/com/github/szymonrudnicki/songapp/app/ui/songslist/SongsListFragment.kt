@@ -100,7 +100,12 @@ class SongsListFragment : Fragment(), KodeinAware {
                     chosenSource = sourceTags[index]
                 }
                 .setPositiveButton(android.R.string.ok) { _, _ ->
-                    songsListViewModel.handleSourceChoice(SourceType.getByTag(chosenSource))
+                    val chosenOrPreviousSource = if (chosenSource.isNotEmpty()) {
+                        SourceType.getByTag(chosenSource)
+                    } else {
+                        sources[sourceIndex]
+                    }
+                    songsListViewModel.handleSourceChoice(chosenOrPreviousSource)
                 }
                 .show()
     }

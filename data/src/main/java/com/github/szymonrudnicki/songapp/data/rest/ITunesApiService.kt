@@ -6,8 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ITunesApiService {
-
+    // due to lack of requirements, I used example endpoint
     @GET("/search")
     fun searchFor(@Query("term") searchTerm: String): Single<SongsResponseModel>
-
 }

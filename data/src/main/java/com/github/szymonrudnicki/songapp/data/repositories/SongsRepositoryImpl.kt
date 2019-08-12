@@ -23,7 +23,6 @@ class SongsRepositoryImpl(
                     .map(ModelMapper::mapSongsFromResponseToDomain)
                     .filterOutModelsWithEmptyValues()
 
-
     override fun getSongsFromLocal(): Single<List<SongDomainModel>> = localSingle
     override fun getSongsFromRemote(): Single<List<SongDomainModel>> = remoteSingle
 

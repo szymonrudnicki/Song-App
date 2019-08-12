@@ -40,6 +40,7 @@ ext {
     testLibs = [
         junit       : 'junit:junit:4.12',
         runner      : 'androidx.test:runner:1.2.0',
-        espressoCore: 'androidx.test.espresso:espresso-core:3.2.0'
+        espressoCore: 'androidx.test.espresso:espresso-core:3.2.0',
+        mockk       : 'io.mockk:mockk:1.9.3'
     ]
 }

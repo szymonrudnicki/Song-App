@@ -19,6 +19,7 @@ class SongsListViewModel(
     private val compositeDisposable = CompositeDisposable()
 
     val eventLiveData = MutableLiveData<SongsListUIEvent>()
+    val loadingLiveData = MutableLiveData<Boolean>()
 
     fun getSongsFromLastSource() {
         val lastCheckedSourceTag = sharedPreferencesRepository.getLastCheckedSourceTag()
@@ -48,6 +49,7 @@ class SongsListViewModel(
             sharedPreferencesRepository.getLastCheckedSourceTag()
 
     private fun getSongsFromLocal() {
+        loadingLiveData.postValue(true)
         compositeDisposable.add(
                 getSongsFromLocalUseCase.execute()
                         .subscribe(::handleGetSongsResult, ::handleGetSongsError)
@@ -55,6 +57,7 @@ class SongsListViewModel(
     }
 
     private fun getSongsFromRemote() {
+        loadingLiveData.postValue(true)
         compositeDisposable.add(
                 getSongsFromRemoteUseCase.execute()
                         .subscribe(::handleGetSongsResult, ::handleGetSongsError)
@@ -62,20 +65,25 @@ class SongsListViewModel(
     }
 
     private fun getSongsFromLocalAndRemote() {
+        loadingLiveData.postValue(true)
         compositeDisposable.add(
                 getSongsFromLocalAndRemoteUseCase.execute()
                         .subscribe(::handleGetSongsResult, ::handleGetSongsError)
         )
     }
 
-    private fun handleGetSongsResult(result: GetSongsResult) = when (result) {
-        is GetSongsResult.Success ->
-            eventLiveData.postValue(SongsListUIEvent.SongsChanged(result.songs))
-        is GetSongsResult.Failed ->
-            eventLiveData.postValue(SongsListUIEvent.Failed(Exception()))
+    private fun handleGetSongsResult(result: GetSongsResult) {
+        loadingLiveData.postValue(false)
+        return when (result) {
+            is GetSongsResult.Success ->
+                eventLiveData.postValue(SongsListUIEvent.SongsChanged(result.songs))
+            is GetSongsResult.Failed ->
+                eventLiveData.postValue(SongsListUIEvent.Failed(Exception()))
+        }
     }
 
     private fun handleGetSongsError(throwable: Throwable) {
+        loadingLiveData.postValue(false)
         eventLiveData.postValue(SongsListUIEvent.Failed(throwable))
     }
 

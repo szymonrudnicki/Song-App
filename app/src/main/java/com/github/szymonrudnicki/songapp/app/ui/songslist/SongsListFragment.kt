@@ -10,8 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.szymonrudnicki.songapp.R
+import com.github.szymonrudnicki.songapp.app.common.extensions.gone
 import com.github.szymonrudnicki.songapp.app.common.extensions.observe
 import com.github.szymonrudnicki.songapp.app.common.extensions.viewModel
+import com.github.szymonrudnicki.songapp.app.common.extensions.visible
 import com.github.szymonrudnicki.songapp.app.ui.songslist.recycler.SongRecyclerAdapter
 import kotlinx.android.synthetic.main.fragment_songs_list.*
 import org.kodein.di.Kodein
@@ -42,6 +44,7 @@ class SongsListFragment : Fragment(), KodeinAware {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         observe(songsListViewModel.eventLiveData, ::updateUIState)
+        observe(songsListViewModel.loadingLiveData, ::toggleLoadingScreen)
         songsListViewModel.getSongsFromLastSource()
     }
 
@@ -59,6 +62,14 @@ class SongsListFragment : Fragment(), KodeinAware {
         when (event) {
             is SongsListUIEvent.SongsChanged -> songsAdapter.songsList = event.songs
             is SongsListUIEvent.Failed -> Toast.makeText(context, "FAIL! ${event.throwable}", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun toggleLoadingScreen(isLoading: Boolean?) {
+        if(isLoading!!) {
+            loading_screen.visible()
+        } else {
+            loading_screen.gone()
         }
     }
 

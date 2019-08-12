@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/songsListFragment">
+
+    <fragment
+        android:id="@+id/songsListFragment"
+        android:name="com.github.szymonrudnicki.songapp.app.ui.songslist.SongsListFragment"
+        tools:layout="@layout/fragment_songs_list"
+        android:label="songsListFragment" />
+
+</navigation>

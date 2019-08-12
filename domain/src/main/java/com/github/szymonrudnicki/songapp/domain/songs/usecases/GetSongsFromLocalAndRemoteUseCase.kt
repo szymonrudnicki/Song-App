@@ -2,14 +2,15 @@ package com.github.szymonrudnicki.songapp.domain.songs.usecases
 
 import com.github.szymonrudnicki.songapp.domain.common.usecases.SchedulersFacade
 import com.github.szymonrudnicki.songapp.domain.common.usecases.SingleUseCase
+import com.github.szymonrudnicki.songapp.domain.songs.model.SongDomainModel
 import com.github.szymonrudnicki.songapp.domain.songs.repositories.SongsRepository
 import io.reactivex.Single
 
 class GetSongsFromLocalAndRemoteUseCase(
         private val songsRepository: SongsRepository,
         schedulersFacade: SchedulersFacade
-) : SingleUseCase<GetSongsResult, Unit>(schedulersFacade) {
+) : SingleUseCase<List<SongDomainModel>, Unit>(schedulersFacade) {
 
-    override fun buildUseCaseSingle(params: Unit?): Single<GetSongsResult> =
+    override fun buildUseCaseSingle(params: Unit?): Single<List<SongDomainModel>> =
             songsRepository.getSongsFromLocalAndRemote().subscribeOnIO()
 }

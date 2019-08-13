@@ -1,6 +1,7 @@
 package com.github.szymonrudnicki.songapp.data.json
 
 import com.github.szymonrudnicki.songapp.data.extensions.fromJson
+import com.github.szymonrudnicki.songapp.data.model.SongJSONModel
 import com.google.gson.Gson
 import io.reactivex.Single
 

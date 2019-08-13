@@ -1,7 +1,7 @@
-package com.github.szymonrudnicki.songapp.data.repositories.songs
+package com.github.szymonrudnicki.songapp.data.repositories
 
 import com.github.szymonrudnicki.songapp.data.json.SongsLocalSource
-import com.github.szymonrudnicki.songapp.data.mapper.ModelMapper
+import com.github.szymonrudnicki.songapp.data.model.mapper.ModelMapper
 import com.github.szymonrudnicki.songapp.data.rest.SongsRemoteSource
 import com.github.szymonrudnicki.songapp.domain.songs.model.SongDomainModel
 import com.github.szymonrudnicki.songapp.domain.songs.repositories.SongsRepository

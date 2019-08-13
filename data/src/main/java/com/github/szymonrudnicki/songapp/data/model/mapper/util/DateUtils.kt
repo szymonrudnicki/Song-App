@@ -1,4 +1,4 @@
-package com.github.szymonrudnicki.songapp.data.mapper.util
+package com.github.szymonrudnicki.songapp.data.model.mapper.util
 
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat

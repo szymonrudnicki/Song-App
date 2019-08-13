@@ -1,4 +1,4 @@
-package com.github.szymonrudnicki.songapp.data.json
+package com.github.szymonrudnicki.songapp.data.model
 
 import com.google.gson.annotations.SerializedName
 

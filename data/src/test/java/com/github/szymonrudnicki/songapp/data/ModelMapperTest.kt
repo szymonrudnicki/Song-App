@@ -1,7 +1,7 @@
 package com.github.szymonrudnicki.songapp.data
 
-import com.github.szymonrudnicki.songapp.data.json.SongJSONModel
-import com.github.szymonrudnicki.songapp.data.mapper.ModelMapper
+import com.github.szymonrudnicki.songapp.data.model.SongJSONModel
+import com.github.szymonrudnicki.songapp.data.model.mapper.ModelMapper
 import com.github.szymonrudnicki.songapp.domain.songs.model.SongDomainModel
 import org.junit.Test
 

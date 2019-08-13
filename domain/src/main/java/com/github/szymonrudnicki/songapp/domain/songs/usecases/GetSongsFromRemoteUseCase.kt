@@ -7,8 +7,8 @@ import com.github.szymonrudnicki.songapp.domain.songs.repositories.SongsReposito
 import io.reactivex.Single
 
 class GetSongsFromRemoteUseCase(
-        private val songsRepository: SongsRepository,
-        schedulersFacade: SchedulersFacade
+    private val songsRepository: SongsRepository,
+    schedulersFacade: SchedulersFacade
 ) : SingleUseCase<List<SongDomainModel>, Unit>(schedulersFacade) {
 
     override fun buildUseCaseSingle(params: Unit?): Single<List<SongDomainModel>> =

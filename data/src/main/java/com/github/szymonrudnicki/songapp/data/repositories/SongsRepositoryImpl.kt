@@ -1,7 +1,7 @@
 package com.github.szymonrudnicki.songapp.data.repositories
 
 import com.github.szymonrudnicki.songapp.data.json.SongsLocalSource
-import com.github.szymonrudnicki.songapp.data.mapper.ModelMapper
+import com.github.szymonrudnicki.songapp.data.model.mapper.ModelMapper
 import com.github.szymonrudnicki.songapp.data.rest.SongsRemoteSource
 import com.github.szymonrudnicki.songapp.domain.songs.model.SongDomainModel
 import com.github.szymonrudnicki.songapp.domain.songs.repositories.SongsRepository
@@ -9,8 +9,8 @@ import io.reactivex.Single
 import io.reactivex.functions.BiFunction
 
 class SongsRepositoryImpl(
-        remoteSource: SongsRemoteSource,
-        localSource: SongsLocalSource
+    remoteSource: SongsRemoteSource,
+    localSource: SongsLocalSource
 ) : SongsRepository {
 
     private val localSingle =
@@ -22,7 +22,6 @@ class SongsRepositoryImpl(
             remoteSource.searchForSongs("trains")
                     .map(ModelMapper::mapSongsFromResponseToDomain)
                     .filterOutModelsWithEmptyValues()
-
 
     override fun getSongsFromLocal(): Single<List<SongDomainModel>> = localSingle
     override fun getSongsFromRemote(): Single<List<SongDomainModel>> = remoteSingle

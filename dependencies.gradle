@@ -14,8 +14,7 @@ ext {
         kotlin: "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion",
         gson  : 'com.google.code.gson:gson:2.8.5',
         rxJava: 'io.reactivex.rxjava2:rxjava:2.1.11',
-        kodein: 'org.kodein.di:kodein-di-generic-jvm:6.3.3',
-        rxLint: 'nl.littlerobots.rxlint:rxlint:1.7.4'
+        kodein: 'org.kodein.di:kodein-di-generic-jvm:6.3.3'
     ]
 
     androidLibs = [
@@ -36,10 +35,14 @@ ext {
         navigationFragment   : 'androidx.navigation:navigation-fragment-ktx:2.1.0-rc01',
         navigationUi         : 'androidx.navigation:navigation-ui-ktx:2.1.0-rc01'
     ]
-
     testLibs = [
-        junit       : 'junit:junit:4.12',
-        runner      : 'androidx.test:runner:1.2.0',
-        espressoCore: 'androidx.test.espresso:espresso-core:3.2.0'
+        junit          : 'junit:junit:4.12',
+        androidJUnit   : 'androidx.test.ext:junit:1.1.1',
+        runner         : 'androidx.test:runner:1.2.0',
+        rules          : 'androidx.test:rules:1.2.0',
+        espressoCore   : 'androidx.test.espresso:espresso-core:3.2.0',
+        mockK          : 'io.mockk:mockk:1.9.2',
+        androidMockK   : 'io.mockk:mockk-android:1.9.2',
+        fragmentTesting: 'androidx.fragment:fragment-testing:1.2.0-alpha02'
     ]
 }

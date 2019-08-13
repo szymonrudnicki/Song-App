@@ -10,10 +10,10 @@ import com.github.szymonrudnicki.songapp.domain.songs.usecases.GetSongsFromRemot
 import io.reactivex.disposables.CompositeDisposable
 
 class SongsListViewModel(
-        private val sharedPreferencesRepository: SharedPreferencesRepository,
-        private val getSongsFromLocalUseCase: GetSongsFromLocalUseCase,
-        private val getSongsFromRemoteUseCase: GetSongsFromRemoteUseCase,
-        private val getSongsFromLocalAndRemoteUseCase: GetSongsFromLocalAndRemoteUseCase
+    private val sharedPreferencesRepository: SharedPreferencesRepository,
+    private val getSongsFromLocalUseCase: GetSongsFromLocalUseCase,
+    private val getSongsFromRemoteUseCase: GetSongsFromRemoteUseCase,
+    private val getSongsFromLocalAndRemoteUseCase: GetSongsFromLocalAndRemoteUseCase
 ) : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()

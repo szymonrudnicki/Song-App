@@ -1,12 +1,7 @@
 package com.github.szymonrudnicki.songapp.app.common.extensions
 
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.direct
 import org.kodein.di.generic.instance

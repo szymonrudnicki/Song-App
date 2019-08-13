@@ -5,11 +5,15 @@ def globalConfiguration = rootProject.extensions.getByName("ext")
 
 dependencies {
     def libs = rootProject.ext.libs
+    def testLibs = rootProject.ext.testLibs
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation libs.kotlin
     implementation libs.rxJava
-    implementation libs.rxLint
+
+    implementation testLibs.junit
+    implementation testLibs.runner
+    implementation testLibs.mockK
 }
 
 sourceCompatibility = globalConfiguration["javaVersion"]

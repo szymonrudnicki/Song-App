@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragment_songs_list_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black_alpha">
@@ -17,8 +18,8 @@
         android:id="@+id/empty_list_placeholder_group"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
         android:background="@color/background_item_song"
+        android:visibility="gone"
         app:constraint_referenced_ids="empty_list_placeholder_image, empty_list_placeholder_text"/>
 
     <ImageView

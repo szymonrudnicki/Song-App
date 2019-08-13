@@ -1,6 +1,6 @@
 package com.github.szymonrudnicki.songapp.data.rest
 
-import com.github.szymonrudnicki.songapp.data.rest.response.SongsResponseModel
+import com.github.szymonrudnicki.songapp.data.model.SongsResponseModel
 import io.reactivex.Single
 
 class SongsRemoteSource(private val iTunesApiService: ITunesApiService) {

@@ -3,7 +3,11 @@ package com.github.szymonrudnicki.songapp.app
 import android.app.Application
 import android.content.Context
 import com.facebook.stetho.Stetho
-import com.github.szymonrudnicki.songapp.app.injection.*
+import com.github.szymonrudnicki.songapp.app.injection.apiModule
+import com.github.szymonrudnicki.songapp.app.injection.localModule
+import com.github.szymonrudnicki.songapp.app.injection.songsModule
+import com.github.szymonrudnicki.songapp.app.injection.useCasesModule
+import com.github.szymonrudnicki.songapp.app.injection.viewmodel.viewModelModule
 import net.danlew.android.joda.JodaTimeAndroid
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware

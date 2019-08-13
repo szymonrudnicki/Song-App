@@ -1,4 +1,4 @@
-package com.github.szymonrudnicki.songapp.domain
+package com.github.szymonrudnicki.songapp.domain.common
 
 import com.github.szymonrudnicki.songapp.domain.common.usecases.SchedulersFacade
 import io.reactivex.schedulers.Schedulers

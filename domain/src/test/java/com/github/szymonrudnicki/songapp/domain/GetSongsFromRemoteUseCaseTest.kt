@@ -1,9 +1,9 @@
-package com.github.szymonrudnicki.songapp
+package com.github.szymonrudnicki.songapp.domain
 
-import com.github.szymonrudnicki.songapp.domain.TestSchedulers
+import com.github.szymonrudnicki.songapp.domain.common.TestSchedulers
 import com.github.szymonrudnicki.songapp.domain.songs.model.SongDomainModel
 import com.github.szymonrudnicki.songapp.domain.songs.repositories.SongsRepository
-import com.github.szymonrudnicki.songapp.domain.songs.usecases.GetSongsFromLocalUseCase
+import com.github.szymonrudnicki.songapp.domain.songs.usecases.GetSongsFromRemoteUseCase
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -12,28 +12,28 @@ import io.reactivex.observers.TestObserver
 import org.junit.Before
 import org.junit.Test
 
-class GetSongsFromLocalUseCaseTest {
+class GetSongsFromRemoteUseCaseTest {
     @MockK
     lateinit var songsRepository: SongsRepository
 
     private lateinit var testObserver: TestObserver<List<SongDomainModel>>
-    private lateinit var useCase: GetSongsFromLocalUseCase
+    private lateinit var useCase: GetSongsFromRemoteUseCase
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxUnitFun = true)
         testObserver = TestObserver()
-        useCase = GetSongsFromLocalUseCase(songsRepository, TestSchedulers())
+        useCase = GetSongsFromRemoteUseCase(songsRepository, TestSchedulers())
     }
 
     @Test
     fun `should return songs list when response is successful`() {
-        val localResult = listOf(
+        val remoteResult = listOf(
                 SongDomainModel("a", "a", "a"),
                 SongDomainModel("b", "b", "b"),
                 SongDomainModel("c", "c", "c")
         )
-        every { songsRepository.getSongsFromLocal() } returns Single.just(localResult)
+        every { songsRepository.getSongsFromRemote() } returns Single.just(remoteResult)
 
         useCase.execute().subscribe(testObserver)
 

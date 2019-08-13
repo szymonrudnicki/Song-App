@@ -1,9 +1,8 @@
-package com.github.szymonrudnicki.songapp.app.injection
+package com.github.szymonrudnicki.songapp.app.injection.viewmodel
 
 import androidx.lifecycle.ViewModelProvider
-import com.github.szymonrudnicki.songapp.app.ui.songslist.SongsListViewModel
 import com.github.szymonrudnicki.songapp.app.common.extensions.bindViewModel
-import com.github.szymonrudnicki.songapp.app.injection.viewmodel.ViewModelFactory
+import com.github.szymonrudnicki.songapp.app.ui.songslist.SongsListViewModel
 import org.kodein.di.Kodein
 import org.kodein.di.direct
 import org.kodein.di.generic.bind

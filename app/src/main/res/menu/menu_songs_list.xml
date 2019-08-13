@@ -7,7 +7,7 @@
     <item
         android:id="@+id/action_select_source"
         android:title="@string/select_source"
-        android:icon="@drawable/baseline_input_white_24"
+        android:icon="@drawable/baseline_input_white"
         app:iconTint="@color/orange_accent"
         app:showAsAction="always" />
 </menu>

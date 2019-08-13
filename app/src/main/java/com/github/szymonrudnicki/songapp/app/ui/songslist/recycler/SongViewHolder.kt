@@ -12,4 +12,3 @@ class SongViewHolder(viewHolder: View) : RecyclerView.ViewHolder(viewHolder) {
         item_song_release_year_text_view.text = song.releaseYear
     }
 }
-

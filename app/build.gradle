@@ -61,7 +61,8 @@ dependencies {
     implementation androidLibs.navigationUi
 
     testImplementation testLibs.junit
-
+    androidTestImplementation testLibs.androidJUnit
     androidTestImplementation testLibs.runner
     androidTestImplementation testLibs.espressoCore
+    androidTestImplementation testLibs.rules
 }

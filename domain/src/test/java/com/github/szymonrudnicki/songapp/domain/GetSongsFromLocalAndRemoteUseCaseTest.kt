@@ -12,7 +12,7 @@ import io.reactivex.observers.TestObserver
 import org.junit.Before
 import org.junit.Test
 
-class GetSongsFromLocalAndLocalAndRemoteUseCaseTest {
+class GetSongsFromLocalAndRemoteUseCaseTest {
     @MockK
     lateinit var songsRepository: SongsRepository
 

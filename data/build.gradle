@@ -18,6 +18,8 @@ android {
 
         versionCode globalConfiguration["projectVersionCode"]
         versionName globalConfiguration["projectVersionName"]
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -42,7 +44,9 @@ dependencies {
 
     implementation testLibs.junit
     implementation testLibs.runner
-    implementation testLibs.mockk
+    implementation testLibs.rules
+    implementation testLibs.espressoCore
+    implementation testLibs.androidMockK
 
     implementation androidLibs.rxAndroid
     implementation androidLibs.retrofit

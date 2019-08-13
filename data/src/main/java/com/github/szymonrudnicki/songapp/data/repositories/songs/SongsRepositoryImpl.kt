@@ -1,4 +1,4 @@
-package com.github.szymonrudnicki.songapp.data.repositories
+package com.github.szymonrudnicki.songapp.data.repositories.songs
 
 import com.github.szymonrudnicki.songapp.data.json.SongsLocalSource
 import com.github.szymonrudnicki.songapp.data.mapper.ModelMapper
@@ -9,8 +9,8 @@ import io.reactivex.Single
 import io.reactivex.functions.BiFunction
 
 class SongsRepositoryImpl(
-        remoteSource: SongsRemoteSource,
-        localSource: SongsLocalSource
+    remoteSource: SongsRemoteSource,
+    localSource: SongsLocalSource
 ) : SongsRepository {
 
     private val localSingle =

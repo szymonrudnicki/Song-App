@@ -14,7 +14,7 @@ dependencies {
 
     implementation testLibs.junit
     implementation testLibs.runner
-    implementation testLibs.mockk
+    implementation testLibs.mockK
 }
 
 sourceCompatibility = globalConfiguration["javaVersion"]
